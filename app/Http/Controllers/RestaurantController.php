@@ -15,7 +15,10 @@ class RestaurantController extends Controller
     public function index()
     {
         $restaurants = Restaurant::orderBy('name', 'asc')->get();
-        return view('restaurants.ListarRestaurants', compact('restaurants'));
+
+        $restaurantsuser = Restaurant::where('user_id', '=', '1')->orderBy('name', 'asc')->get();
+
+        return view('restaurants.ListarRestaurants', compact('restaurantsuser'));
     }
 
     /**
@@ -83,4 +86,15 @@ class RestaurantController extends Controller
     {
         //
     }
+
+
+    //mis metodos
+
+
+    public function showFrontPage()
+    {
+        $restaurants = Restaurant::orderBy('name', 'asc')->get();
+        return view('front_page.index', compact('restaurants'));
+    }
+
 }
