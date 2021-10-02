@@ -76,6 +76,18 @@
         </nav>
 
         <main class="py-4">
+
+            @if (isset($flash))
+            @endif
+
+            <div class="container">
+                @if (Session::has('success'))
+                    <div class="alert alert-success" role="alert">
+                        {{ Session::get('success') }}
+                    </div>
+                @endif
+            </div>
+
             @yield('content')
         </main>
     </div>

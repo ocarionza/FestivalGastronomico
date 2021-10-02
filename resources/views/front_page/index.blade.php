@@ -29,7 +29,7 @@
                                 <h2 class="card-title">{{ $restaurant->name }}</h2>
                                 <h5 class="text-muted">{{ $restaurant->category->name }}</h5>
                                 <p class="card-text">{{ $restaurant->description }}</p>
-                                <a href="#" class="btn btn-primary">Ver más</a>
+                                <a href="{{ route('restaurants.show', $restaurant->id)}}" class="btn btn-primary">Ver más</a>
                             </div>
                             </div>
                     </div>
