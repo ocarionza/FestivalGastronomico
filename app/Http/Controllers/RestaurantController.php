@@ -7,6 +7,7 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use App\Http\Requests\StoreRestaurantResquest;
 
 class RestaurantController extends Controller
 {
@@ -49,7 +50,7 @@ class RestaurantController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreRestaurantResquest $request)
     {
 
         if(Auth::user()->type != 'admin' & Auth::user()->type != 'owner')
