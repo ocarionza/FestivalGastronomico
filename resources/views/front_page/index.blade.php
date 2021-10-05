@@ -3,7 +3,13 @@
 @section('content')
 
     <div class="container">
-        <h1>Nuestros restaurantes</h1>
+        <h1 class="mb-4">Nuestros restaurantes</h1>
+
+        {{ Form::open(['url' => route('front_page.index'), 'method' => 'get']) }}
+        <div class="input-group mb-3 mt-1">
+            {{ Form::select('filter', $categories, $filter, [ 'class' => 'form-control', 'aria-describedby' => 'button-filter']) }}
+            {{ Form::button('<i class="fas fa-search"></i>', [ 'class' => 'btn btn-primary', 'id' => 'button-filter', 'type' => 'submit']) }}
+        </div>
 
         <?php 
             $rows = $restaurants->count() / 4;
@@ -14,7 +20,7 @@
 
             <div class="row">
 
-            @for ($j = 0; $j < 3; $j++)
+            @for ($j = 0; $j < 4; $j++)
 
                 @if (isset($restaurants[($i*4)+$j]))
 
@@ -22,8 +28,8 @@
                     $restaurant = $restaurants[($i*4)+$j];
                 ?> 
 
-                    <div class="col-3">
-                        <div class="card" style="width: 18rem;">
+                    <div class="col-3 mb-3">
+                        <div class="card" style="height: 500px; width: 17rem;">
                             <img src="{{ asset('images/hotdog.png') }}" class="card-img-top" alt="...">
                             <div class="card-body">
                                 <h2 class="card-title">{{ $restaurant->name }}</h2>
@@ -42,6 +48,7 @@
             
         @endfor
 
+    {{ $restaurants -> Links() }}
     </div>
 
 @endsection

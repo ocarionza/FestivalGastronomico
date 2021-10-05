@@ -31,6 +31,14 @@ class RestaurantController extends Controller
      */
     public function create()
     {
+
+        if(Auth::user()->type != 'admin' & Auth::user()->type != 'owner')
+        {
+            Session::flash('failture', 'Usted no tiene permisos para crear restaurantes');
+
+            return redirect(route('front_page.index'));
+        }
+
         $categories = Category::orderBy('name', 'asc')->pluck('name', 'id');
         return view ("restaurants.create", compact('categories'));
     }
@@ -43,6 +51,13 @@ class RestaurantController extends Controller
      */
     public function store(Request $request)
     {
+
+        if(Auth::user()->type != 'admin' & Auth::user()->type != 'owner')
+        {
+            Session::flash('failture', 'Usted no tiene permisos para crear restaurantes');
+
+            return redirect(route('front_page.index'));
+        }
 
         $input = $request->all();
 
@@ -107,10 +122,22 @@ class RestaurantController extends Controller
     //mis metodos
 
 
-    public function showFrontPage()
+    public function showFrontPage(Request $request)
     {
-        $restaurants = Restaurant::orderBy('name', 'asc')->get();
-        return view('front_page.index', compact('restaurants'));
+
+        $filter = $request['filter'] ?? null;
+
+        if(!isset($request['filter']))
+            $restaurants = Restaurant::orderBy('name', 'asc')->simplePaginate(4);
+        else
+        {
+            $restaurants = Restaurant::orderBy('name', 'asc')->where('category_id', '=', $request['filter'])->simplePaginate(4);
+            $restaurants->appends(['filter' => $filter]);
+        }
+            
+        $categories = Category::orderBy('name', 'asc')->pluck('name', 'id');
+
+        return view('front_page.index', compact('restaurants', 'categories', 'filter'));
     }
 
 }
