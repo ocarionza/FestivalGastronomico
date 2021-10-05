@@ -25,9 +25,18 @@
     <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
       <div class="card-body">
         <!-- TODO: AGREGAR EL ENLACE A VER RESTURANTE DE PROPIETARIO --> 
-         <a href="" class="btn btn-primary" title="visitar este restaurante">VER</a>
-         <a href="" title="visitar este restaurante" class="btn btn-secondary">MODIFICAR</a>
-         <a href="" title="visitar este restaurante" class="btn btn-danger">ELIMINAR</a>
+        <div class="btn-group" role="group" aria-label="Basic example">
+         <a href="{{ route('restaurants.show', $restaurant->id)}}" class="btn btn-primary mr-2" title="visitar este restaurante">VER</a>
+         <a href="{{ route('restaurants.edit', $restaurant->id) }}" title="visitar este restaurante" class="btn btn-secondary mr-2">MODIFICAR</a>
+          {{ Form::open(['route' => [
+            'restaurants.destroy', $restaurant->id], 
+            'method' => 'delete',
+            'onsubmit' => 'return confirm(\'¿Esta seguro que desea remover el restaurante?\n¡Esta acción no se puede deshacer!\')'
+          ]) }}
+            <button type="submit" class="btn btn-danger mr-2">ELIMINAR</button>
+          {!! Form::close() !!}
+        </div>
+         {{-- <a href="" title="visitar este restaurante" class="btn btn-danger">ELIMINAR</a> --}}
       </div>
     </div>
 @endforeach
