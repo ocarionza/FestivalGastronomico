@@ -93,7 +93,8 @@ class RestaurantController extends Controller
      */
     public function edit(Restaurant $restaurant)
     {
-        //
+        $categories = Category::orderBy('name', 'asc')->pluck('name', 'id');
+        return view("restaurants.edit", compact('categories', 'restaurant'));
     }
 
     /**
@@ -105,7 +106,15 @@ class RestaurantController extends Controller
      */
     public function update(Request $request, Restaurant $restaurant)
     {
-        //
+        $input = $request->all();
+
+        $restaurant->fill($input);
+        $restaurant->user_id = Auth::id(); 
+        $restaurant->save();
+
+        Session::flash('success', 'Restaurante editado exitosamente'); 
+
+        return redirect(route('restaurants.index'));
     }
 
     /**
